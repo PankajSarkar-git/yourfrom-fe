@@ -14,6 +14,8 @@ import Analytics from "../pages/analytics/Analytics";
 import Settings from "../pages/settings/Settings";
 import CreateFormPage from "../pages/forms/CreateFormPage";
 
+import FormPreviewPage from "../pages/forms/FormPreviewPage";
+
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -32,12 +34,16 @@ export default function AppRoutes() {
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/forms" element={<Forms />} />
-            <Route path="/forms/create" element={<CreateFormPage />} />
             <Route path="/responses" element={<Responses />} />
             <Route path="/users" element={<Users />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
+
+          {/* Dedicated Full-Screen Form Builder & Preview */}
+          <Route path="/forms/create" element={<CreateFormPage />} />
+          <Route path="/forms/:id/edit" element={<CreateFormPage />} />
+          <Route path="/forms/:id/preview" element={<FormPreviewPage />} />
         </Route>
         <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>

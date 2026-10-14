@@ -20,10 +20,11 @@ export interface FormFieldConfig {
     disabled?: boolean;
   }[];
   validation?: FormFieldValidation;
-  searchable: true;
+  searchable?: boolean;
   multiple?: boolean;
   clearable?: boolean;
   ui?: FormFieldUI;
+  conditions?: FormFieldCondition[];
 }
 
 export interface FormFieldOption {
@@ -72,6 +73,8 @@ export interface FormFieldCondition {
   value?: unknown;
 }
 
+import { AlertCircle } from "lucide-react";
+
 interface FormFieldProps {
   field: FormFieldConfig;
   children: React.ReactNode;
@@ -92,29 +95,54 @@ const FormField = ({
     required = false,
     disabled = false,
     hidden = false,
+    ui,
   } = field;
 
   if (hidden) {
     return null;
   }
 
+  const helpText = ui?.helpText || description;
+
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`space-y-1.5 transition-all ${className}`}>
       {label && (
-        <Label htmlFor={name} className={disabled ? "opacity-50" : ""}>
-          {label}
-
-          {required && <span className="ml-1 text-destructive">*</span>}
-        </Label>
+        <div className="flex items-baseline justify-between gap-2">
+          <Label
+            htmlFor={name}
+            className={`text-sm font-semibold text-foreground tracking-tight flex items-center gap-1 ${
+              disabled ? "opacity-50" : ""
+            }`}
+          >
+            <span>{label}</span>
+            {required && (
+              <span
+                className="text-red-500 font-bold text-xs"
+                title="Required question"
+              >
+                *
+              </span>
+            )}
+          </Label>
+        </div>
       )}
 
-      {description && (
-        <p className="text-sm text-muted-foreground">{description}</p>
+      {helpText && (
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          {helpText}
+        </p>
       )}
 
-      {children}
+      <div className="relative mt-1">
+        {children}
+      </div>
 
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {error && (
+        <p className="flex items-center gap-1.5 text-xs font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-150">
+          <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+          <span>{error}</span>
+        </p>
+      )}
     </div>
   );
 };

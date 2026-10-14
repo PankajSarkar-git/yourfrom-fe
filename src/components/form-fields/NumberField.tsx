@@ -36,6 +36,7 @@ const NumberField = ({
         required={field.required}
         min={min}
         max={max}
+        className="h-11 rounded-xl text-sm px-3.5 border-border/70 bg-background/80 hover:border-primary/40 focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-2xs transition-all"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           const inputValue = event.target.value;
 
